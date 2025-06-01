@@ -19,18 +19,18 @@ services:
         depends_on:
             - php
 
-    certbot:
-        image: certbot/certbot
-        container_name: certbot
-        volumes:
-            - ./certbot/www:/var/www/certbot
-            - ./certbot/conf:/etc/letsencrypt
-        entrypoint: ""
-        command: sh -c "certbot certonly --webroot --webroot-path=/var/www/certbot --email your@email.com --agree-tos --no-eff-email -d 45.153.191.182 --dry-run && certbot renew"
-        depends_on:
-            - nginx
-        networks:
-            - app-network
+#    certbot:
+#        image: certbot/certbot
+#        container_name: certbot
+#        volumes:
+#            - ./certbot/www:/var/www/certbot
+#            - ./certbot/conf:/etc/letsencrypt
+#        entrypoint: ""
+#        command: sh -c "certbot certonly --webroot --webroot-path=/var/www/certbot --email your@email.com --agree-tos --no-eff-email -d 45.153.191.182 --dry-run && certbot renew"
+#        depends_on:
+#            - nginx
+#        networks:
+#            - app-network
 
 
     php:
