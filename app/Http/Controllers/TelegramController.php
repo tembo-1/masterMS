@@ -44,17 +44,6 @@ class TelegramController extends Controller
             return;
         }
 
-        // Создаем/находим мастера
-        $user = User::firstOrCreate(['telegram_id' => $chatId]);
-
-        // Добавляем клиента
-        Client::create([
-            'master_id' => $user->id,
-            'name' => $matches[1],
-            'phone' => $matches[2],
-            'service' => $matches[3],
-            'next_date' => $matches[4]
-        ]);
 
         Telegram::sendMessage([
             'chat_id' => $chatId,
