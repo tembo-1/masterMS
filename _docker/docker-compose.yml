@@ -26,7 +26,7 @@ services:
             - ./certbot/www:/var/www/certbot
             - ./certbot/conf:/etc/letsencrypt
         entrypoint: ""
-        command: sh -c "certbot certonly --webroot --webroot-path=/var/www/certbot --email your@email.com --agree-tos --no-eff-email -d 45.153.191.182 --dry-run && certbot renew"
+        command: sh -c "certbot certonly --webroot --webroot-path=/var/www/certbot --email your@email.com --agree-tos --no-eff-email -d master-client.ru --dry-run && certbot renew"
         depends_on:
             - nginx
         networks:
