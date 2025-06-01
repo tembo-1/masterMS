@@ -11,20 +11,22 @@ class TelegramController extends Controller
 {
     public function handleWebhook(Request $request)
     {
-        $update = Telegram::commandsHandler(true);
-        Log::info($update);
-        dd($update->getMessage());
-        dd($update->getMessage());
-        $message = $update->getMessage();
-        $chatId = $message->getChat()->getId();
-        $text = $message->getText();
+        $data = $request->json()->all(); // Получаем массив данных
 
-        if ($text === '/start') {
+        // Проверяем, что это сообщение с командой /start
+        if (isset($data['message']['text']) && $data['message']['text'] === '/start') {
+            $chatId = $data['message']['chat']['id'];
+
+            Log::info('Received /start from chat ID: ' . $chatId);
+
+            // Отправляем ответ
             Telegram::sendMessage([
                 'chat_id' => $chatId,
-                'text' => "Добро пожаловать! Отправьте /add для создания напоминания."
+                'text' => "Привет! Я бот для напоминаний. Используй /add чтобы создать напоминание."
             ]);
         }
+
+        return response()->json(['ok' => true]);
     }
 
     private function handleAddCommand($chatId, $text)
