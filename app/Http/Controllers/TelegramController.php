@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Client;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Telegram\Bot\Laravel\Facades\Telegram;
 
 class TelegramController extends Controller
@@ -11,24 +12,18 @@ class TelegramController extends Controller
     public function handleWebhook(Request $request)
     {
         $update = Telegram::commandsHandler(true);
+        Log::error($update);
+        dd($update->getMessage());
+        dd($update->getMessage());
         $message = $update->getMessage();
         $chatId = $message->getChat()->getId();
         $text = $message->getText();
 
-        // Обработка /start
         if ($text === '/start') {
             Telegram::sendMessage([
                 'chat_id' => $chatId,
-                'text' => "Привет! Я помогу напоминать о заказах.\n\n" .
-                    "Добавить клиента:\n" .
-                    "/add Иван 79161112233 Чистка_котла 2024-09-15"
+                'text' => "Добро пожаловать! Отправьте /add для создания напоминания."
             ]);
-            return;
-        }
-
-        // Обработка /add
-        if (str_starts_with($text, '/add')) {
-            $this->handleAddCommand($chatId, $text);
         }
     }
 
