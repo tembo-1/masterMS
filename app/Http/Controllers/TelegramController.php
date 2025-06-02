@@ -25,10 +25,22 @@ class TelegramController extends Controller
                     'name' => '123',
                     'password' => Hash::make('123'),
                 ]);
+
             Telegram::sendMessage([
                 'chat_id' => $update->getChat()->getId(),
-                'text' => 'Привет! Я бот для напоминаний. айди чата'.$update->getChat()->getId()
+                'text' => 'Выберите дату:',
+                'reply_markup' => json_encode([
+                    'inline_keyboard' => [
+                        [['text' => 'Сегодня', 'callback_data' => 'date_today']],
+                        [['text' => 'Завтра', 'callback_data' => 'date_tomorrow']],
+                    ]
+                ])
             ]);
+//
+//            Telegram::sendMessage([
+//                'chat_id' => $update->getChat()->getId(),
+//                'text' => 'Привет! Я бот для напоминаний.'
+//            ]);
         }
 
         return response()->json(['ok' => true]);
