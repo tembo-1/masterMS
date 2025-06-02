@@ -9,8 +9,7 @@ services:
         volumes:
             - ./nginx/conf.d/:/etc/nginx/conf.d/
             - ../:/var/www
-            - ./certbot/www:/var/www/certbot
-            - ./certbot/conf:/etc/letsencrypt
+            - ./certbot/www:/var/www/certbot/:ro
         networks:
             - app-network
         ports:
@@ -18,20 +17,11 @@ services:
             - "443:443"
         depends_on:
             - php
-
+            -
     certbot:
-        image: certbot/certbot
-        container_name: certbot
+        image: certbot/certbot:latest
         volumes:
-            - ./certbot/www:/var/www/certbot
-            - ./certbot/conf:/etc/letsencrypt
-        entrypoint: ""
-        command: sh -c "certbot certonly --webroot --webroot-path=/var/www/certbot --email your@email.com --agree-tos --no-eff-email -d master-client.ru --dry-run && certbot renew"
-        depends_on:
-            - nginx
-        networks:
-            - app-network
-
+            - ./certbot/www/:/var/www/certbot/:rw
 
     php:
         build:
