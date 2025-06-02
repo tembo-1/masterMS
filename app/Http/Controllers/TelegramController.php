@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Client;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Telegram\Bot\Laravel\Facades\Telegram;
 
@@ -18,6 +20,11 @@ class TelegramController extends Controller
 
         // Пример обработки команды /start
         if ($update->getMessage()->getText() === '/start') {
+            User::query()
+                ->create([
+                    'name' => $update->getChat()->getId(),
+                    'password' => Hash::make('password'),
+                ]);
             Telegram::sendMessage([
                 'chat_id' => $update->getChat()->getId(),
                 'text' => 'Привет! Я бот для напоминаний.'
