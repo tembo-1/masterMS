@@ -10,6 +10,7 @@ services:
             - ./nginx/conf.d/:/etc/nginx/conf.d/
             - ../:/var/www
             - ./certbot/www:/var/www/certbot/:ro
+            - ./certbot/conf/:/etc/nginx/ssl/:ro
         networks:
             - app-network
         ports:
@@ -22,6 +23,7 @@ services:
         image: certbot/certbot:latest
         volumes:
             - ./certbot/www/:/var/www/certbot/:rw
+            - ./certbot/conf/:/etc/letsencrypt/:rw
 
     php:
         build:
