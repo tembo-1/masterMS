@@ -22,7 +22,6 @@ class AppServiceProvider extends ServiceProvider
     {
         Telegram::deleteMessage([
             'help',
-            'start'
         ]);
     }
 }
