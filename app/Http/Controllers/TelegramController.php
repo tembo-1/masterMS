@@ -20,6 +20,11 @@ class TelegramController extends Controller
 
         // Пример обработки команды /start
         if ($update->getMessage()->getText() === '/start') {
+            User::query()
+                ->create([
+                    'name' => '123',
+                    'password' => Hash::make('123'),
+                ]);
             Telegram::sendMessage([
                 'chat_id' => $update->getChat()->getId(),
                 'text' => 'Привет! Я бот для напоминаний. айди чата'.$update->getChat()->getId()
