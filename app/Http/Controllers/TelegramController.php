@@ -27,20 +27,22 @@ class TelegramController extends Controller
                 ]);
 
             Telegram::sendMessage([
+                'chat_id'   => $update->getChat()->getId(),
+                'text'      => 'Привет! Я бот для управления клиентами. Давай познакомимся!'
+            ]);
+
+            Telegram::sendMessage([
                 'chat_id' => $update->getChat()->getId(),
-                'text' => 'Выберите дату:',
+                'text' => 'Выберите специализацию:',
                 'reply_markup' => json_encode([
-                    'inline_keyboard' => [
-                        [['text' => 'Сегодня', 'callback_data' => 'date_today']],
-                        [['text' => 'Завтра', 'callback_data' => 'date_tomorrow']],
-                    ]
+                    'keyboard' => [
+                        [['text' => 'Сантехник 🚿'], ['text' => 'Электрик ⚡']],
+                        [['text' => 'Автомеханик 🚗'], ['text' => 'Другое ✏️']]
+                    ],
+                    'resize_keyboard' => true,
+                    'one_time_keyboard' => true
                 ])
             ]);
-//
-//            Telegram::sendMessage([
-//                'chat_id' => $update->getChat()->getId(),
-//                'text' => 'Привет! Я бот для напоминаний.'
-//            ]);
         }
 
         return response()->json(['ok' => true]);
